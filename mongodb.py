@@ -15,7 +15,7 @@ password = urllib.parse.quote_plus('YoWei19870507')
 host = 'ds163870.mlab.com' #主機位置
 port = '63870' #port號碼
 dbname='stockmaster'
-collection='coll'
+collection='stockmaster'
 
 ###############################################################################
 #                           LineBot股票機器人mongoDB#                            #
