@@ -165,7 +165,7 @@ line_bot_api.push_message(yourid, TextSendMessage(text='你可以開始了'))
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
-def callback():
+def callback():   ####後面都是內建設定
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
     # get request body as text
@@ -181,14 +181,14 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):  
+def handle_message(event):  ###訊息傳遞功能
     ### 抓到顧客的資料 ###
     profile = line_bot_api.get_profile(event.source.user_id)
     uid = profile.user_id #使用者ID
     usespeak = event.message.text #取得使用者訊息
 #####################################系統功能按鈕##############################
 
-    if re.match('[0-9]{4}[<>][0-9]',usespeak): # 先判斷是否是使用者要用來存股票的
+    if re.match('[0-9]{4}[<>][0-9]',usespeak): # 先判斷是否是使用者要用來存股票的 0到9的資料輸入4個，內容要0到9
         mongodb.write_user_stock_fountion(stock=usespeak[0:4], bs=usespeak[4:5], price=usespeak[5:])
         line_bot_api.push_message(uid, TextSendMessage(usespeak[0:4]+'已經儲存成功'))
         return 0
@@ -196,6 +196,11 @@ def handle_message(event):
     elif re.match('刪除[0-9]{4}',usespeak): # 刪除存在資料庫裡面的股票
         mongodb.delete_user_stock_fountion(stock=usespeak[2:])
         line_bot_api.push_message(uid, TextSendMessage(usespeak+'已經刪除成功'))
+        return 0
+
+    elif re.match('我愛你',usespeak): # 刪除存在資料庫裡面的股票
+#        mongodb.delete_user_stock_fountion(stock=usespeak[2:])
+        line_bot_api.push_message(uid, TextSendMessage('我愛你一生一世'))
         return 0
         
     elif re.match('[0-9]{4}',usespeak): # 如果只有給四個數字就判斷是股票查詢
