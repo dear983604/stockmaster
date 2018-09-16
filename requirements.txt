@@ -1,0 +1,12 @@
+line-bot-sdk
+bs4
+flask
+pymongo
+datetime
+pandas
+scipy
+msgpack
+pandas_datareader
+fix_yahoo_finance
+mpl_finance
+imgurpython
